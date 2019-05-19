@@ -23,13 +23,26 @@
                 <tr>
                     <th>Nombre completo</th>
                     <th>Dni</th>
+                    <th>Ciudad</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items="${requestScope.listadoCliente}">
+                <c:forEach var="item" begin="0" items="${requestScope.listadoCliente}">
                 <tr>
                     <td>${item.nombreCompleto}</td>
                     <td>${item.dni}</td>
+                    <td>${item.ciudad}</td>
+                    <td>${item.direccion}</td>
+                    <td>${item.telefono}</td>
+                    <td>${item.email}</td>
+                    <td>
+                        <a href="ClienteServlet?operacion=editar&idCliente=${item.id}">Editar</a>
+                        <a href="ClienteServlet?operacion=eliminar&idCliente=${item.id}">Eliminar</a>
+                    </td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -42,16 +55,15 @@
         
          <form action="ClienteServlet" method="POST">
             <input type="hidden" name="operacion" value="newCliente">
-            <input type="text" name="nombre"><br/>
+            <input type="text" name="nombre" ><br/>
             <input type="text" name="apePat"><br/>
-            <input type="text" name="apeMat"><br/>
-            <input type="text" name="dni"><br/>
-            <input type="text" name="ciudad"><br/>
+            <input type="text" name="apeMat" ><br/>
+            <input type="text" name="dni" ><br/>
+            <input type="text" name="ciudad" ><br/>
             <input type="text" name="direccion"><br/>
             <input type="text" name="telefono"><br/>
             <input type="text" name="email"><br/>
-            
-            <input type="submit" name="boton" value="insertar">
+            <input type="submit" name="boton" value="grabar">
         </form>
 
         
