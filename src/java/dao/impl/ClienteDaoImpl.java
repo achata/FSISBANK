@@ -98,7 +98,7 @@ public class ClienteDaoImpl implements ClienteDao{
                 cstm = cn.prepareCall("{CALL USP_UPD_CLIENTE(?,?)}");
                 cstm.setString(1, obj.getId());
                 cstm.registerOutParameter(2, Types.INTEGER);
-                
+                cstm.execute();
                 int retorno=0;
                 retorno = cstm.getInt(9);
                 System.out.println(retorno);

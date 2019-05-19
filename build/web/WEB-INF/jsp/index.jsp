@@ -4,7 +4,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
-<%@page import="bean.Cliente"%>
 <%@page import="controller.ClienteServlet"%>
 
 <html>
@@ -27,9 +26,6 @@
                 </tr>
             </thead>
             <tbody>
-                <script>
-                alert("hola "+${requestScope.listadoCliente});
-                </script>
                 <c:forEach var="item" items="${requestScope.listadoCliente}">
                 <tr>
                     <td>${item.nombreCompleto}</td>
@@ -39,6 +35,23 @@
             </tbody>
             
         </table>
+        </form>
+        
+        <br />
+        <br />
+        
+         <form action="ClienteServlet" method="POST">
+            <input type="hidden" name="operacion" value="newCliente">
+            <input type="text" name="nombre"><br/>
+            <input type="text" name="apePat"><br/>
+            <input type="text" name="apeMat"><br/>
+            <input type="text" name="dni"><br/>
+            <input type="text" name="ciudad"><br/>
+            <input type="text" name="direccion"><br/>
+            <input type="text" name="telefono"><br/>
+            <input type="text" name="email"><br/>
+            
+            <input type="submit" name="boton" value="insertar">
         </form>
 
         

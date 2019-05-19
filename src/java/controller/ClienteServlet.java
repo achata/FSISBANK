@@ -43,6 +43,8 @@ public class ClienteServlet extends HttpServlet {
         
         if(operacion.equals("clientes")){
             this.listar(request, response);
+        }else if(operacion.equals("newCliente")){
+            this.insertar(request, response);
         }
     }
     
@@ -56,12 +58,38 @@ public class ClienteServlet extends HttpServlet {
             cliente.setDni("");
             listadoCLiente= this.clienteDao.listar(cliente);
             request.setAttribute("listadoCliente", listadoCLiente);
-            //System.out.println(listadoCLiente);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
             //response.sendRedirect("index.htm");
             rd.forward(request, response);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    private void insertar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        Cliente cliente = new Cliente();
+        Boolean bit = null;
+        try {
+            cliente.setNombre(request.getParameter("nombre"));
+            cliente.setApellidoPaterno(request.getParameter("apePat"));
+            cliente.setApellidoMaterno(request.getParameter("apeMat"));
+            cliente.setDni(request.getParameter("dni"));
+            cliente.setCiudad(request.getParameter("ciudad"));
+            cliente.setDireccion(request.getParameter("direccion"));
+            cliente.setTelefono(request.getParameter("telefono"));
+            cliente.setEmail(request.getParameter("email"));
+            bit = this.clienteDao.insertar(cliente);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            bit = false;
+        }
+        
+        if(bit && bit != null){
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
+            rd.forward(request, response);
+        }else{
+            System.out.println("NO SE PUDO INSERTAR");
         }
     }
     
