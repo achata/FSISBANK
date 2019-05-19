@@ -9,4 +9,5 @@ public interface BasicDao<T extends Serializable> {
     public Boolean insertar(T obj) throws Exception;
     public Boolean actualizar(T obj) throws Exception;
     public Boolean eliminar(T obj) throws Exception;
+    public T buscarXId(String id) throws Exception;
 }
