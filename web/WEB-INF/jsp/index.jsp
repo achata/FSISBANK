@@ -22,14 +22,11 @@
          <table border="1">
             <thead>
                 <tr>
-                    <th>Nombre completo</th>
+                    <th>Nombre git</th>
                     <th>Dni</th>
                 </tr>
             </thead>
             <tbody>
-                <script>
-                alert("hola "+${requestScope.listadoCliente});
-                </script>
                 <c:forEach var="item" items="${requestScope.listadoCliente}">
                 <tr>
                     <td>${item.nombreCompleto}</td>
