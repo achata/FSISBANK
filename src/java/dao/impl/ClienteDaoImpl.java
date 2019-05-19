@@ -34,6 +34,9 @@ public class ClienteDaoImpl implements ClienteDao{
                 while(rs.next()){
                     Cliente cliente = new Cliente();
                     cliente.setId(rs.getString(1));
+                    cliente.setApellidoPaterno(rs.getString(2));
+                    cliente.setApellidoMaterno(rs.getString(3));
+                    cliente.setNombre(rs.getString(4));
                     cliente.setNombreCompleto(rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4));
                     cliente.setDni(rs.getString(5));
                     cliente.setCiudad(rs.getString(6));
@@ -95,12 +98,20 @@ public class ClienteDaoImpl implements ClienteDao{
             Connection cn = Conexion.getConexion();
             CallableStatement cstm = null;
             try {
-                cstm = cn.prepareCall("{CALL USP_UPD_CLIENTE(?,?)}");
+                cstm = cn.prepareCall("{CALL USP_UPD_CLIENTE(?,?,?,?,?,?,?,?,?,?)}");
                 cstm.setString(1, obj.getId());
-                cstm.registerOutParameter(2, Types.INTEGER);
+                cstm.setString(2, obj.getApellidoPaterno());
+                cstm.setString(3, obj.getApellidoMaterno());
+                cstm.setString(4, obj.getNombre());
+                cstm.setString(5, obj.getDni());
+                cstm.setString(6, obj.getCiudad());
+                cstm.setString(7, obj.getDireccion());
+                cstm.setString(8, obj.getTelefono());
+                cstm.setString(9, obj.getEmail());
+                cstm.registerOutParameter(10, Types.INTEGER);
                 cstm.execute();
                 int retorno=0;
-                retorno = cstm.getInt(9);
+                retorno = cstm.getInt(10);
                 System.out.println(retorno);
                 if(retorno != 0){
                     return true;
@@ -125,7 +136,7 @@ public class ClienteDaoImpl implements ClienteDao{
                 cstm = cn.prepareCall("{CALL USP_DEL_CLIENTE(?,?)}");
                 cstm.setString(1,obj.getId());
                 cstm.registerOutParameter(2, Types.INTEGER);
-                
+                cstm.execute();
                 int retorno=0;
                 retorno = cstm.getInt(2);
                 
@@ -143,6 +154,40 @@ public class ClienteDaoImpl implements ClienteDao{
         }
     }
 
-
-    
+    @Override
+    public Cliente buscarXId(String id) throws Exception {
+        Cliente cliente = new Cliente();
+        try {
+            Connection cn = Conexion.getConexion();
+            CallableStatement cstm = null;
+            ResultSet rs = null;
+            try {
+                cstm = cn.prepareCall("CALL USP_BUSCARXID_CLIENTE");
+                cstm.setString(1,id);
+                
+                rs = cstm.executeQuery();
+                
+                while(rs.next()){
+                    cliente.setId(rs.getString(1));
+                    cliente.setApellidoPaterno(rs.getString(2));
+                    cliente.setApellidoMaterno(rs.getString(3));
+                    cliente.setNombre(rs.getString(4));
+                    cliente.setNombreCompleto(rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4));
+                    cliente.setDni(rs.getString(5));
+                    cliente.setCiudad(rs.getString(6));
+                    cliente.setDireccion(rs.getString(7));
+                    cliente.setTelefono(rs.getString(8));
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally{
+            Conexion.closeCallableStatement(cstm);
+            Conexion.closeResultSet(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cliente;
+    }    
 }
