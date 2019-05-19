@@ -22,7 +22,7 @@
          <table border="1">
             <thead>
                 <tr>
-                    <th>Nombre git</th>
+                    <th>Nombre modificacion git</th>
                     <th>Dni</th>
                 </tr>
             </thead>
