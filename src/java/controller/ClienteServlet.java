@@ -9,6 +9,8 @@ import dao.impl.ClienteDaoImpl;
 import dao.inte.ClienteDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import bean.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.*;
 
 /**
  *
@@ -32,7 +35,27 @@ public class ClienteServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * 
      */
+    
+    
+    public void init(ServletConfig config,HttpServletRequest request) throws ServletException { 
+        super.init(config); 
+        
+                Cliente cliente = new Cliente();
+        cliente.setId(null);
+        cliente.setApellidoPaterno("");
+        cliente.setApellidoMaterno("");
+        cliente.setNombre("");
+        cliente.setNombreCompleto("");
+        cliente.setDni("");
+        cliente.setCiudad("");
+        cliente.setDireccion("");
+        cliente.setTelefono("");
+        request.setAttribute("unCliente", cliente);
+        
+    }
+    
     public ClienteDao clienteDao = new ClienteDaoImpl();
 
     
@@ -45,6 +68,8 @@ public class ClienteServlet extends HttpServlet {
             this.listar(request, response);
         }else if(operacion.equals("newCliente")){
             this.insertar(request, response);
+        }else if(operacion.equals("eliminar")){
+            this.eliminar(request, response);
         }
     }
     
@@ -68,8 +93,14 @@ public class ClienteServlet extends HttpServlet {
     
     private void insertar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
+        
         Cliente cliente = new Cliente();
         Boolean bit = null;
+        /*String id = request.getParameter("id");
+        if(id != null){
+            this.editar(request,response);
+            return;
+        }*/
         try {
             cliente.setNombre(request.getParameter("nombre"));
             cliente.setApellidoPaterno(request.getParameter("apePat"));
@@ -90,6 +121,38 @@ public class ClienteServlet extends HttpServlet {
             rd.forward(request, response);
         }else{
             System.out.println("NO SE PUDO INSERTAR");
+        }
+    }
+    
+    private void editar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        Cliente cliente = new Cliente();
+        Boolean bit = null;
+        
+        try {
+            bit = this.clienteDao.actualizar(clienteDao.buscarXId(request.getParameter("idCliente")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void eliminar (HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        Cliente cliente = new Cliente();
+        Boolean bit = null;
+        try {
+            cliente.setId(request.getParameter("idCliente"));
+            bit = this.clienteDao.eliminar(cliente);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            bit = false;
+        }
+        
+        if(bit && bit != null){
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
+            rd.forward(request, response);
+        }else{
+            System.out.println("NO SE PUDO ELIMINAR");
         }
     }
     
