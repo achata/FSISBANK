@@ -1,6 +1,5 @@
 package dao.impl;
 
-import basic.dao.Impl.BasicDaoImpl;
 import basic.mysql.Conexion;
 import bean.Cliente;
 import dao.inte.ClienteDao;
@@ -8,7 +7,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +75,7 @@ public class ClienteDaoImpl implements ClienteDao{
                 
                 int retorno=0;
                 retorno = cstm.getInt(9);
-                System.out.println(retorno);
+                //System.out.println(retorno);
                 if(retorno != 0){
                     return true;
                 }

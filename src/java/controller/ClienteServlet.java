@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controller;
 
 import dao.impl.ClienteDaoImpl;
 import dao.inte.ClienteDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +13,6 @@ import bean.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.*;
 
 /**
  *
@@ -38,24 +31,7 @@ public class ClienteServlet extends HttpServlet {
      * 
      */
     
-    
-    public void init(ServletConfig config,HttpServletRequest request) throws ServletException { 
-        super.init(config); 
-        
-                Cliente cliente = new Cliente();
-        cliente.setId(null);
-        cliente.setApellidoPaterno("");
-        cliente.setApellidoMaterno("");
-        cliente.setNombre("");
-        cliente.setNombreCompleto("");
-        cliente.setDni("");
-        cliente.setCiudad("");
-        cliente.setDireccion("");
-        cliente.setTelefono("");
-        request.setAttribute("unCliente", cliente);
-        
-    }
-    
+    //POLIMORFISMO
     public ClienteDao clienteDao = new ClienteDaoImpl();
 
     
@@ -68,6 +44,10 @@ public class ClienteServlet extends HttpServlet {
             this.listar(request, response);
         }else if(operacion.equals("newCliente")){
             this.insertar(request, response);
+        }else if(operacion.equals("buscarXId")){
+            this.buscarXId(request, response);
+        }else if(operacion.equals("editCliente")){
+            this.editar(request, response);
         }else if(operacion.equals("eliminar")){
             this.eliminar(request, response);
         }
@@ -75,19 +55,26 @@ public class ClienteServlet extends HttpServlet {
     
     private void listar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Cliente> listadoCLiente = new ArrayList<Cliente>();
+        List<Cliente> listadoCliente = new ArrayList<Cliente>();
         Cliente cliente = new Cliente();
         String nombre = request.getParameter("nombre");
-        try {
-            cliente.setNombreCompleto(nombre);
+        String dni = request.getParameter("dni");
+        if(nombre == null || dni == null){
+            cliente.setNombreCompleto("");
             cliente.setDni("");
-            listadoCLiente= this.clienteDao.listar(cliente);
-            request.setAttribute("listadoCliente", listadoCLiente);
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
-            //response.sendRedirect("index.htm");
+        }else{
+            cliente.setNombreCompleto(nombre);
+            cliente.setDni(dni);
+        }
+        try {
+            listadoCliente= this.clienteDao.listar(cliente);
+            request.setAttribute("listadoCliente", listadoCliente);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/modulos/mantenimiento/cliente.jsp");  
             rd.forward(request, response);
+            //response.sendRedirect("/modulos/mantenimiento/cliente.jsp");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     
@@ -117,10 +104,25 @@ public class ClienteServlet extends HttpServlet {
         }
         
         if(bit && bit != null){
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
-            rd.forward(request, response);
+            /*RequestDispatcher rd = getServletContext().getRequestDispatcher("/modulos/mantenimiento/cliente.jsp");  
+            rd.forward(request, response);*/
+            //response.sendRedirect(request.getContextPath()+"/ClienteServlet?operacion=clientes");
+            this.listar(request, response);
         }else{
             System.out.println("NO SE PUDO INSERTAR");
+        }
+    }
+    
+    private void buscarXId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        Cliente cliente = new Cliente();
+        try {
+         cliente = this.clienteDao.buscarXId(request.getParameter("idCliente"));   
+         request.setAttribute("unCliente", cliente);
+         RequestDispatcher rd = getServletContext().getRequestDispatcher("/modulos/mantenimiento/cliente.jsp");  
+         rd.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -130,7 +132,16 @@ public class ClienteServlet extends HttpServlet {
         Boolean bit = null;
         
         try {
-            bit = this.clienteDao.actualizar(clienteDao.buscarXId(request.getParameter("idCliente")));
+            cliente.setId(request.getParameter("idCliente"));
+            cliente.setNombre(request.getParameter("nombre"));
+            cliente.setApellidoPaterno(request.getParameter("apePat"));
+            cliente.setApellidoMaterno(request.getParameter("apeMat"));
+            cliente.setDni(request.getParameter("dni"));
+            cliente.setCiudad(request.getParameter("ciudad"));
+            cliente.setDireccion(request.getParameter("direccion"));
+            cliente.setTelefono(request.getParameter("telefono"));
+            cliente.setEmail(request.getParameter("email"));
+            bit = this.clienteDao.actualizar(cliente);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,8 +160,9 @@ public class ClienteServlet extends HttpServlet {
         }
         
         if(bit && bit != null){
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.htm");  
-            rd.forward(request, response);
+            /*RequestDispatcher rd = getServletContext().getRequestDispatcher("/modulos/mantenimiento/cliente.jsp");  
+            rd.forward(request, response);*/
+            this.listar(request, response);
         }else{
             System.out.println("NO SE PUDO ELIMINAR");
         }

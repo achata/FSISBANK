@@ -1,11 +1,8 @@
 
 package basic.bean;
 
-import java.io.Serializable;
+public class BasicBean{
 
-public class BasicBean implements Serializable{
-    private static final long serialVersionUID = 1L;
-    
     private String id;
     private String situacion;
     private String situacionNombre;

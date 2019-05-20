@@ -1,11 +1,9 @@
+
 package bean;
 
 import basic.bean.BasicBean;
-import java.io.Serializable;
 
-public class Cliente extends BasicBean implements Serializable{
-    
-    private static final long serialVersionUID = 1L;
+public class Empleado extends BasicBean{
     
     public String nombre;
     public String apellidoPaterno;
@@ -14,8 +12,6 @@ public class Cliente extends BasicBean implements Serializable{
     public String dni;
     public String ciudad;
     public String direccion;
-    public String telefono;
-    public String email;
 
     public String getNombre() {
         return nombre;
@@ -40,7 +36,7 @@ public class Cliente extends BasicBean implements Serializable{
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
     }
-    
+
     public String getNombreCompleto() {
         return nombreCompleto;
     }
@@ -48,7 +44,7 @@ public class Cliente extends BasicBean implements Serializable{
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-    
+
     public String getDni() {
         return dni;
     }
@@ -73,27 +69,12 @@ public class Cliente extends BasicBean implements Serializable{
         this.direccion = direccion;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public String toString() {
-        return "Cliente{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", nombreCompleto=" + nombreCompleto + ", dni=" + dni + ", ciudad=" + ciudad + ", direccion=" + direccion + ", telefono=" + telefono + ", email=" + email + '}';
+        return "Empleado{" + "nombre=" + nombre + ", apellidoPaterno=" +
+                apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", nombreCompleto=" +
+                nombreCompleto + ", dni=" + dni + ", ciudad=" + ciudad + ", direccion=" + direccion + '}';
     }
-
     
     
 }
