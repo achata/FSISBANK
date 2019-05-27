@@ -9,7 +9,15 @@ public class Movimiento extends BasicBean{
     Empleado empleado;
     String codTipoMovimiento;
     double importe;
+    String codEmpleado;
 
+    public String getCodEmpleado() {
+        return codEmpleado;
+    }
+
+    public void setCodEmpleado(String codEmpleado) {
+        this.codEmpleado = codEmpleado;
+    }
     public Cuenta getCuenta() {
         return cuenta;
     }
