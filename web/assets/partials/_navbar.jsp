@@ -15,6 +15,8 @@
   <!-- plugins:css -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/iconfonts/mdi/font/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/vendors/css/vendor.bundle.base.css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <!-- endinject -->
   <!-- inject:css -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/vertical-layout-light/styles.css">
@@ -42,21 +44,16 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-search position-relative" id="navbarSearch">
-            <a class="nav-link d-flex justify-content-center align-items-center" id="navbarSearchButton" href="#">
-              <i class="mdi mdi-magnify mx-0"></i>
-            </a>
-            <input type="text" class="form-control" placeholder="Search..." id="navbarSearchInput">                  
-          </li>
+          
 
           <li class="nav-item nav-profile dropdown mr-0 mr-sm-3">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                <img src="images/faces/face28.jpg" alt="profile"/>
-              <span class="nav-profile-name mr-2">Craig Estrada</span>              
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile"/>
+              <span class="nav-profile-name mr-2">${nombre} ${apellidop}</span>              
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary"></i>
+                <i class="mdi material-icons text-primary">keyboard_tab</i>
                 Salir
               </a>
             </div>

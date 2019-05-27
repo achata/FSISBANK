@@ -3,8 +3,7 @@
         <!-- partial:${pageContext.request.contextPath}/assets/${pageContext.request.contextPath}/assets${pageContext.request.contextPath}/assets/partials/_footer.html -->
         <footer class="footer">
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2018 <a href="https://www.urbanui.com/" target="_blank">Urbanui</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2019</span>
           </div>
         </footer>
         <!-- partial -->
@@ -31,4 +30,43 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+  <script>
+      $("#FormDeposito").validate({
+        errorPlacement: function(label, element) {
+            label.addClass('text-danger mt-2 text-right d-block');
+            label.insertAfter(element);
+        },
+        highlight: function(element, errorClass) {
+        $(element).parent().addClass('has-danger')
+        $(element).addClass('form-control-danger')
+        },
+         rules:{
+             codcuenta: {
+                 required: true,
+                 digits: true,
+                 minlength: 8,
+                 maxlength:8
+             },
+             monto:{
+                 required: true,
+                 number: true
+             }
+             
+         },
+         messages:{
+             codcuenta:{
+                 required: "Este campo es requerido",
+                 digits: "Sólo se aceptan dígitos",
+                 minlength:"Mínimo {0} dígitos",
+                 maxlength:"Máximo {0} dígitos"
+             },
+             monto:{
+                 required: "Este campo es requerido",
+                 number: "Debe ingresar un monto válido"
+             }
+         }
+      });
+  </script>
 </html>
